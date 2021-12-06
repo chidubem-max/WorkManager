@@ -22,9 +22,14 @@ class MainActivity : AppCompatActivity() {
 
         btnStartWork.setOnClickListener{
            // val workRequest = OneTimeWorkRequest.Builder(SimpleWorker::class.java).build()
+           val constraints = Constraints.Builder()
+               .setRequiresCharging(true)
+               .setRequiredNetworkType(NetworkType.CONNECTED)
+               .build()
             val data = workDataOf("WORK_MESSAGE" to "Work Completed")
            val workRequest = OneTimeWorkRequestBuilder<SimpleWorker>()
                .setInputData(data)
+               .setConstraints(constraints)
                .build()
             val periodicWorkRequest = PeriodicWorkRequestBuilder<SimpleWorker>(5, TimeUnit.MINUTES ,1 , TimeUnit.MINUTES)
             workManager.enqueue(workRequest)
